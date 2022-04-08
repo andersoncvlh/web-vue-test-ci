@@ -40,3 +40,26 @@ jobs:
 
       - name: Run Cypress - Integration Tests
         run: npm run test:e2e:ci
+
+
+  CD:
+    runs-on: ubuntu-latest
+    needs: [CI]
+    steps:
+    - name: Download Code
+      uses: actions/checkout@v2
+
+    - name: Okteto Login
+      uses: okteto/login@master
+      with:
+        token: ${{ secrets.OKTETO_API_KEY }}
+
+    - name: Activate K8s Cluster
+      uses: okteto/namespace@master
+      with:
+        namespace: andersoncvlh
+
+    - name: Create deployment
+      uses: okteto/apply@master
+      with:
+        manifest: k8s/deployment.yml

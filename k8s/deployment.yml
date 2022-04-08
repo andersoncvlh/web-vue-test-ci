@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-vue-test-ci-svc
+spec:
+  selector:
+    app: web-vue-test-ci
+    tier: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: frontend-port # max 15 characters
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-vue-test-ci
+spec:
+  selector:
+    matchLabels: # help Deployment finds which Pods to manage
+      app: web-vue-test-ci
+      tier: frontend
+      track: stable
+  replicas: 1 # Deployment creates 1 replicated Pods
+  template:
+    metadata:
+      labels:
+        app: web-vue-test-ci
+        tier: frontend
+        track: stable
+    spec:
+      containers:
+        - name: web-vue-test-ci-container
+          image: andersoncmciet/web-vue-test-ci:latest
+          ports:
+            - name: frontend-port
+              containerPort: 80
+          imagePullPolicy: Always
