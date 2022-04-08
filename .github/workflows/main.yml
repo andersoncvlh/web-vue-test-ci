@@ -28,3 +28,12 @@ jobs:
           tags: |
             andersoncmciet/web-vue-test-ci:latest
             andersoncmciet/web-vue-test-ci:${{ github.run_number }}
+      
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Jest - Unit Tests
+        run: npm run test:unit
+
+      - name: Run Cypress - Integration Tests
+        run: npm run test:e2e:ci
