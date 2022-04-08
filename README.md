@@ -46,3 +46,15 @@ npm run test:e2e # or `npm run test:e2e:ci` for headless testing
 ```sh
 npm run lint
 ```
+
+### Docker
+
+Compile image
+```
+docker build -t vuejs-cookbook/dockerize-vuejs-app .
+```
+Run 
+```
+docker run -it -p 8080:80 --rm --name dockerize-vuejs-app-1 vuejs-cookbook/dockerize-vuejs-app
+
+```
