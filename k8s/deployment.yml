@@ -1,39 +1,33 @@
-apiVersion: v1
-kind: Service
+apiVersion: apps/v1             # API version
+kind: Deployment                # Type of kubernetes resource
 metadata:
-  name: web-vue-test-ci-svc
+  name: web-vue-test-ci      # Name of the kubernetes resource
 spec:
+  replicas: 1                   # No of replicas/pods to run
   selector:
-    app: web-vue-test-ci
-    tier: frontend
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: frontend-port # max 15 characters
-  type: ClusterIP
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: web-vue-test-ci
-spec:
-  selector:
-    matchLabels: # help Deployment finds which Pods to manage
+    matchLabels:                # This deployment applies to Pods matching the specified labels
       app: web-vue-test-ci
-      tier: frontend
-      track: stable
-  replicas: 1 # Deployment creates 1 replicated Pods
-  template:
+  template:                     # Template for creating the Pods in this deployment
     metadata:
-      labels:
+      labels:                   # Labels that will be applied to all the Pods in this deployment
         app: web-vue-test-ci
-        tier: frontend
-        track: stable
-    spec:
+    spec:                       # Spec for the containers that will run inside the Pods
       containers:
-        - name: web-vue-test-ci-container
-          image: andersoncmciet/web-vue-test-ci:latest
-          ports:
-            - name: frontend-port
-              containerPort: 80
-          imagePullPolicy: Always
+      - name: web-vue-test-ci
+        image: andersoncmciet/web-vue-test-ci:latest
+        ports:
+          - name: http
+            containerPort: 80   # Should match the Port that the container listens on
+---
+apiVersion: v1                  # API version
+kind: Service                   # Type of kubernetes resource
+metadata:
+  name: web-vue-test-ci      # Name of the kubernetes resource
+spec:
+  type: ClusterIP                # Exposes the service by opening a port on each node
+  selector:
+    app: web-vue-test-ci     # Any Pod matching the label `app=polling-app-client` will be picked up by this service
+  ports:                        # Forward incoming connections on port 80 to the target port 80 in the Pod
+  - name: http
+    port: 80
+    targetPort: 80
