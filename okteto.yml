@@ -8,3 +8,5 @@ resources:
   limits:
     cpu: "2"
     memory: 4Gi
+deploy:
+  - kubectl apply -f k8s/deployment.yml
