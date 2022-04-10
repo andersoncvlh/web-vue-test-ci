@@ -49,6 +49,8 @@ jobs:
     - name: Download Code
       uses: actions/checkout@v2
 
+    - name: Install Dependencies
+      run: npm ci
     - name: Build app
       run: npm run build
 
