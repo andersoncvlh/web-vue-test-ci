@@ -49,6 +49,9 @@ jobs:
     - name: Download Code
       uses: actions/checkout@v2
 
+    - name: Build app
+      run: npm run build
+
     - name: Deploy with Firebase
       uses: w9jds/firebase-action@master
       with:
