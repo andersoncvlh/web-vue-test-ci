@@ -7,36 +7,40 @@ jobs:
       actions: read
       contents: read
       security-events: write
-    steps:
-      - name: Download Code
-        uses: actions/checkout@v2
+    steps:      
+      # - name: DockerHub Login
+      #   uses: docker/login-action@v1.10.0      
+      #   with:
+      #     username: ${{ secrets.DOCKERHUB_LOGIN }}
+      #     password: ${{ secrets.DOCKERHUB_PASS }}   
+      # - name: Build Artefacts
+      #   uses: docker/build-push-action@v2.6.1
+      #   with: 
+      #     context: .
+      #     file: ./Dockerfile
+      #     push: true
+      #     tags: |
+      #       andersoncmciet/web-vue-test-ci:latest
+      #       andersoncmciet/web-vue-test-ci:${{ github.run_number }}
+      
+      - name: Checkout Repo
+        uses: actions/checkout@master
       - name: SAST - Running Horusec Security
         run: |
           curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/main/deployments/scripts/install.sh | bash -s latest
           horusec start -p="./" -e="true"   
-      - name: DockerHub Login
-        uses: docker/login-action@v1.10.0      
-        with:
-          username: ${{ secrets.DOCKERHUB_LOGIN }}
-          password: ${{ secrets.DOCKERHUB_PASS }}   
-      - name: Build Artefacts
-        uses: docker/build-push-action@v2.6.1
-        with: 
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: |
-            andersoncmciet/web-vue-test-ci:latest
-            andersoncmciet/web-vue-test-ci:${{ github.run_number }}
-      
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
+      - name: Build
+        run: npm run build-prod
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: dist
+          path: dist
 
       - name: Run Jest - Unit Tests
         run: npm run test:unit
-
-      - name: Build app
-        run: npm run build
 
       - name: Run Cypress - Integration Tests
         run: npm run test:e2e:ci
@@ -55,7 +59,7 @@ jobs:
   #         projectId: web-vue-test-ci
   deploy:
     name: Deploy
-    needs: build
+    needs: CI
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
