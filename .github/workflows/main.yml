@@ -49,17 +49,10 @@ jobs:
     - name: Download Code
       uses: actions/checkout@v2
 
-    - name: Okteto Login
-      uses: okteto/login@master
+    - name: Deploy with Firebase
+      uses: w9jds/firebase-action@master
       with:
-        token: ${{ secrets.OKTETO_API_KEY }}
-
-    - name: Activate K8s Cluster
-      uses: okteto/namespace@master
-      with:
-        namespace: andersoncvlh
-
-    - name: Create deployment
-      uses: okteto/apply@master
-      with:
-        manifest: k8s/deployment.yml
+        args: deploy --only hosting
+      env:
+        # see via cmd: firebase login:ci
+        FIREBASE_TOKEN: ${{ secrets.FirebaseDeploy }}
