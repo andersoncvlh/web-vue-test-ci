@@ -84,7 +84,7 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FirebaseDeploy }}
   
-  Homolog:
+  Production:
     name: Promote Production
     needs: [CI, CD]
     runs-on: ubuntu-latest
