@@ -60,6 +60,8 @@ jobs:
   Homolog:
     name: Promote Homolog
     needs: [CI, CD]
+    environment:
+      name: deploymentconfig.homolog
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -86,7 +88,7 @@ jobs:
   
   Production:
     name: Promote Production
-    needs: [CI, CD]
+    needs: [CI, CD, Homolog]
     environment:
       name: deploymentconfig.prod
     runs-on: ubuntu-latest
