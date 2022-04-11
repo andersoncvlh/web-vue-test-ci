@@ -26,14 +26,6 @@ jobs:
         with:
           # Additional arguments for the sonarcloud scanner
           args:             
-            -Dsonar.pullrequest.branch=${GITHUB_REF#refs/heads/}
-            -Dsonar.pullrequest.key=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-            -Dsonar.pullrequest.base=main
-            # provider repository e endpoint usado nesta versao de sonarcube para fazer o comentario no pr do resultado da analize, 
-            # versoes mais novas nao precisa disso.
-            # -Dsonar.pullrequest.provider=github
-            # -Dsonar.pullrequest.github.repository=
-            # -Dsonar.pullrequest.github.endpoint=
             -Dsonar.projectKey=21f9a6ca-51a5-4965-8eae-f459526a6358
             -Dsonar.sources=.
             -Dsonar.host.url=http://ec2-54-83-244-36.compute-1.amazonaws.com:9000
