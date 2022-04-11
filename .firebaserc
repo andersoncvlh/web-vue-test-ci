@@ -10,6 +10,9 @@
         ],
         "web-vue-test-ci-dev": [
           "dev"
+        ],
+        "web-vue-test-ci": [
+          "prod"
         ]
       }
     }

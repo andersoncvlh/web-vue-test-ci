@@ -16,5 +16,14 @@
       "**/.*",
       "**/node_modules/**"
     ]
+  },
+  {
+    "site": "web-vue-test-ci",
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
   }]
 }
