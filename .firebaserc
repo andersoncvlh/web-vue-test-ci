@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "web-vue-test-ci"
+  },
+  "targets": {
+    "web-vue-test-ci": {
+      "hosting": {
+        "hml": [
+          "hml"
+        ],
+        "dev": [
+          "dev"
+        ]
+      }
+    }
   }
 }
