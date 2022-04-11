@@ -87,6 +87,8 @@ jobs:
   Production:
     name: Promote Production
     needs: [CI, CD]
+    environment:
+      name: deploymentconfig.prod
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
