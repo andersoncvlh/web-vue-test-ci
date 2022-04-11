@@ -42,6 +42,14 @@ jobs:
         with:
           name: dist
           path: dist
+
+      - name: Apply target
+        uses: w9jds/firebase-action@master
+        with:
+          args: target:apply hosting dev
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FirebaseDeploy }}
+
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
@@ -49,7 +57,8 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FirebaseDeploy }}
   
-  PromoteHomolog:
+  Homolog:
+    name: Deploy Homolog
     needs: [CI, CD]
     runs-on: ubuntu-latest
     steps:
@@ -60,6 +69,14 @@ jobs:
         with:
           name: dist
           path: dist
+
+      - name: Apply target
+        uses: w9jds/firebase-action@master
+        with:
+          args: target:apply hosting hml
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FirebaseDeploy }}
+
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
