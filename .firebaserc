@@ -5,10 +5,10 @@
   "targets": {
     "web-vue-test-ci": {
       "hosting": {
-        "hml": [
-          "hml"
+        "web-vue-test-ci-homolog": [
+          "homolog"
         ],
-        "dev": [
+        "web-vue-test-ci-dev": [
           "dev"
         ]
       }

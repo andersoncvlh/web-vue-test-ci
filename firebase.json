@@ -1,6 +1,6 @@
 {
   "hosting": [{
-    "target": "dev",
+    "site": "web-vue-test-ci-dev",
     "public": "dist",
     "ignore": [
       "firebase.json",
@@ -9,7 +9,7 @@
     ]
   },
   {
-    "target": "hml",
+    "site": "web-vue-test-ci-homolog",
     "public": "dist",
     "ignore": [
       "firebase.json",
