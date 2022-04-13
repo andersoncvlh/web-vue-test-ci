@@ -2,7 +2,48 @@ name: Vue App CI/CD
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  CI:
+
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps: 
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Install Dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: dist
+          path: dist
+      - name: Run Jest - Unit Tests
+        run: npm run test:unit
+      - name: Run Cypress - Integration Tests
+        run: npm run test:e2e:ci
+      
+  sonarqube:
+    name: Code Quality
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: SonarQube Scan
+      uses: sonarsource/sonarqube-scan-action@master
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+  
+  horusec:
+    name: SAST
+    needs: build
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -14,37 +55,10 @@ jobs:
       - name: SAST - Running Horusec Security
         run: |
           curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/main/deployments/scripts/install.sh | bash -s latest
-          horusec start -p="./" -e="true"   
-      - name: Install Dependencies
-        run: npm install
-      - name: Build
-        run: npm run build
-      - name: Archive Production Artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: dist
-          path: dist
-
-      - name: Run Jest - Unit Tests
-        run: npm run test:unit
-
-      - name: Run Cypress - Integration Tests
-        run: npm run test:e2e:ci
-
-  sonarqube:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: SonarQube Scan
-      uses: sonarsource/sonarqube-scan-action@master
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          horusec start -p="./" -e="true"  
 
   CD:
-    needs: CI
+    needs: [build, sonarqube, horusec]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -71,7 +85,7 @@ jobs:
   
   Homolog:
     name: Promote Homolog
-    needs: [CI, CD]
+    needs: [CD]
     environment:
       name: deploymentconfig.homolog
     runs-on: ubuntu-latest
@@ -100,7 +114,7 @@ jobs:
   
   Production:
     name: Promote Production
-    needs: [CI, CD, Homolog]
+    needs: [Homolog]
     environment:
       name: deploymentconfig.prod
     runs-on: ubuntu-latest
