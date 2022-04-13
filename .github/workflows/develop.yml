@@ -1,10 +1,10 @@
-name: After push main
+name: After push develop
 on:
   push:
     branches:
-      - main
+      - develop
 
-jobs:  
+jobs:
   Homolog:
     name: Promote Homolog
     needs: [CD]
