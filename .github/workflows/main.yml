@@ -122,7 +122,7 @@ jobs:
         run: |
           curl -sSO https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
           unzip pipeline-scan-LATEST.zip
-          java -jar pipeline-scan.jar -vid $VID -vkey $VKEY -f $CaminhoArquivo
+          java -jar pipeline-scan.jar -vid $VID -vkey $VKEY -f $CaminhoArquivo --issue_details true
 
   CD:
     needs: [build, sonarqube, Veracode_PipelineScan]
