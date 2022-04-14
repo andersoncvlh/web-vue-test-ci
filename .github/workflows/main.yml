@@ -13,6 +13,18 @@ jobs:
     steps: 
       - name: Checkout Repo
         uses: actions/checkout@master
+
+      - name: Empacotamento dos arquivos
+        uses: thedoctor0/zip-release@master
+        with:
+          filename: 'veracode.zip'
+          path: .
+      - name: Publicando Artefato
+        uses: actions/upload-artifact@v2
+        with:
+          name: pacoteVeracode
+          path: veracode.zip
+
       - name: Install Dependencies
         run: npm install
       - name: Build
@@ -21,7 +33,8 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: dist
-          path: dist
+          path: dist      
+
       - name: Run Jest - Unit Tests
         run: npm run test:unit
       - name: Run Cypress - Integration Tests
@@ -74,8 +87,8 @@ jobs:
       - name: Download Artefato
         uses: actions/download-artifact@v2
         with:
-          name: dist
-          path: dist
+          name: pacoteVeracode
+          path: veracode.zip
       - uses: veracode/veracode-uploadandscan-action@master # Faz a analise da Veracode
         env:
           VID: ${{ secrets.VID }} # Lembrar de criar as credenciais no Secrets
@@ -87,7 +100,7 @@ jobs:
           criticality: 'VeryHigh'
           appname: '$AppName'
           createsandbox: true
-          filepath: 'veracode.zip'
+          filepath: veracode.zip
           deleteIncompleteScan: false
           version: ${{ github.run_id }}
 
@@ -98,8 +111,8 @@ jobs:
       - name: Download Artefato
         uses: actions/download-artifact@v2
         with:
-          name: dist
-          path: dist
+          name: pacoteVeracode
+          path: veracode.zip
       - name: Veracode Pipeline Scan
         env:
           VID: ${{ secrets.VID }} # Lembrar de criar as credenciais no Secrets
