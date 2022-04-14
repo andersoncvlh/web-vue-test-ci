@@ -91,7 +91,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: pacoteVeracode
-          path: veracode.zip
       - uses: veracode/veracode-uploadandscan-action@master # Faz a analise da Veracode
         env:
           VID: ${{ secrets.VID }} # Lembrar de criar as credenciais no Secrets
@@ -103,7 +102,7 @@ jobs:
           criticality: 'VeryHigh'
           appname: '$AppName'
           createsandbox: true
-          filepath: veracode.zip
+          filepath: 'veracode.zip'
           deleteIncompleteScan: false
           version: ${{ github.run_id }}
 
@@ -115,7 +114,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: pacoteVeracode
-          path: veracode.zip
       - name: Veracode Pipeline Scan
         env:
           VID: ${{ secrets.VID }} # Lembrar de criar as credenciais no Secrets
