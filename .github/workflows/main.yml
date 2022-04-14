@@ -14,6 +14,10 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@master
 
+      - name: Install Dependencies
+        run: npm install
+      
+      ## veracode
       - name: Empacotamento dos arquivos
         uses: thedoctor0/zip-release@master
         with:
@@ -25,15 +29,14 @@ jobs:
           name: pacoteVeracode
           path: veracode.zip
 
-      - name: Install Dependencies
-        run: npm install
       - name: Build
         run: npm run build
+      
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
         with:
           name: dist
-          path: dist      
+          path: dist
 
       - name: Run Jest - Unit Tests
         run: npm run test:unit
