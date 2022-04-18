@@ -1,4 +1,8 @@
 {
+  "horusecCliHorusecApiUri": "http://ec2-54-83-244-36.compute-1.amazonaws.com:8000",
+  "horusecCliProjectPath": "/home/erics/Documents/projects/cit/MB/web-vue-test-ci",
+  "horusecCliRepositoryAuthorization": "f0b634ad-50f4-4ae3-b4ff-ca6d823bb3f5",
+  "horusecCliRepositoryName": "web-vue-test-ci",
   "horusecCliFalsePositiveHashes": [
     "27ed36a1d25e79a3bbb4d00137c749c883f79b154598bd24f90bf35e1e8d6093",
     null,
