@@ -17,12 +17,14 @@ jobs:
       - name: Install Dependencies
         run: npm ci
     ## veracode
-      - name: Empacotamento dos arquivos
-        uses: thedoctor0/zip-release@master
-        with:
-          filename: 'veracode.zip'
-          exclusions: './node_modules/*'
-          path: .
+      - name: Zip
+        run: zip -r veracode.zip . -x node_modules/**\* 
+      # - name: Empacotamento dos arquivos
+      #   uses: thedoctor0/zip-release@master
+      #   with:
+      #     filename: 'veracode.zip'
+      #     exclusions: './node_modules/*'
+      #     path: .
       - name: Publicando Artefato
         uses: actions/upload-artifact@v2
         with:
