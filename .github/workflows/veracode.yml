@@ -58,6 +58,7 @@ jobs:
           criticality: 'VeryHigh'
           appname: '$AppName'
           createsandbox: true
+          sandboxname: dev
           filepath: 'veracode.zip'
           deleteIncompleteScan: false
           version: ${{ github.run_id }}
