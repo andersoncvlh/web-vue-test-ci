@@ -18,7 +18,7 @@ jobs:
         run: npm ci
     ## veracode
       - name: Zip
-        run: zip -r veracode.zip . -x node_modules/**\* 
+        run: zip -r veracode.zip src -x node_modules/**\* 
       # - name: Empacotamento dos arquivos
       #   uses: thedoctor0/zip-release@master
       #   with:
