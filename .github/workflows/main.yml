@@ -84,7 +84,7 @@ jobs:
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
   CD:
-    needs: [build, sonarqube, Veracode_PipelineScan]
+    needs: [build, sonarqube, Veracode_PipelineScan, Veracode_SCA]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -186,6 +186,10 @@ jobs:
           name: dist
           path: dist
 
+      # check SAST ok
+      # check DAST ok
+
+      # firebase
       - name: Apply target
         uses: w9jds/firebase-action@master
         with:
