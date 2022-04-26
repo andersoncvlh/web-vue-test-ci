@@ -39,7 +39,7 @@ jobs:
   Veracode_SAST_REPORTS:
     name: SAST Reports
     runs-on: ubuntu-latest
-    needs: Homolog
+    needs: [CD, Homolog]
     environment:
       name: secutiy-tools-to-prepare.prod
     steps:
