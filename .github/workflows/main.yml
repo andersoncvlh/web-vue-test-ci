@@ -166,9 +166,14 @@ jobs:
           deleteIncompleteScan: false
           version: ${{ github.run_id }}
 
+  ## DAST
+  #### needs: Homolog
+  #### environment:
+  ####    name: secutiy-tools-to-prepare.prod
+
   Production:
     name: Promote Production
-    needs: [Homolog]
+    needs: [Veracode_SAST_REPORTS] # DAST
     environment:
       name: deploymentconfig.prod
     runs-on: ubuntu-latest
