@@ -35,32 +35,33 @@ jobs:
         run: |
           curl -sSL 'https://download.sourceclear.com/ci.sh' | bash -s – scan --update-advisor --pull-request --allow-dirty
 
-  # Schedule por causa da concorrencia, esse STEP gera relatórios
   # Cenário de subir a versão
-  # Veracode_SAST_REPORTS:
-  #   name: SAST Reports
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   steps:
-  #     - name: Download Artefato
-  #       uses: actions/download-artifact@v2
-  #       with:
-  #         name: pacoteVeracode
-  #     - uses: veracode/veracode-uploadandscan-action@master # Faz a analise da Veracode
-  #       env:
-  #         VID: ${{ secrets.VID }} # Lembrar de criar as credenciais no Secrets
-  #         VKEY: ${{ secrets.VKEY }}
-  #         AppName: Github Actions - ${{ github.repository }}
-  #       with:
-  #         vid: '$VID'
-  #         vkey: '$VKEY'
-  #         criticality: 'VeryHigh'
-  #         appname: '$AppName'
-  #         createsandbox: true
-  #         sandboxname: dev
-  #         filepath: 'veracode.zip'
-  #         deleteIncompleteScan: false
-  #         version: ${{ github.run_id }}
+  Veracode_SAST_REPORTS:
+    name: SAST Reports
+    runs-on: ubuntu-latest
+    needs: Homolog
+    environment:
+      name: secutiy-tools-to-prepare.prod
+    steps:
+      - name: Download Artefato
+        uses: actions/download-artifact@v2
+        with:
+          name: pacoteVeracode
+      - uses: veracode/veracode-uploadandscan-action@master # Faz a analise da Veracode
+        env:
+          VID: ${{ secrets.VID }} # Lembrar de criar as credenciais no Secrets
+          VKEY: ${{ secrets.VKEY }}
+          AppName: Github Actions - ${{ github.repository }}
+        with:
+          vid: '$VID'
+          vkey: '$VKEY'
+          criticality: 'VeryHigh'
+          appname: '$AppName'
+          createsandbox: true
+          sandboxname: pre-prod
+          filepath: 'veracode.zip'
+          deleteIncompleteScan: false
+          version: ${{ github.run_id }}
 
   Veracode_PipelineScan:
     name: SAST
