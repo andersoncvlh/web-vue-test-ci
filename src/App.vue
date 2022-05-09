@@ -2,6 +2,15 @@
 import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "@/components/HelloWorld.vue";
 import { VueRecaptcha } from "vue-recaptcha";
+import Validation from "@/services/recaptchaValidate";
+
+function validate(response) {
+  Validation.validate({ Response: response })
+    .then((result) => {
+      this.$emit("validate", result.objectResult.success);
+    })
+    .catch((error) => console.log(error));
+}
 </script>
 
 <template>
@@ -25,6 +34,8 @@ import { VueRecaptcha } from "vue-recaptcha";
       <vue-recaptcha
         ref="recaptcha"
         sitekey="6Le8N80fAAAAAAM89bfyLCHayThoQGjVZo1U5_pE"
+        :loadRecaptchaScript="true"
+        @verify="validate"
       />
     </div>
   </header>
