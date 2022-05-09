@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "@/components/HelloWorld.vue";
+import { VueRecaptcha } from "vue-recaptcha";
 </script>
 
 <template>
@@ -20,6 +21,11 @@ import HelloWorld from "@/components/HelloWorld.vue";
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
+
+      <vue-recaptcha
+        ref="recaptcha"
+        sitekey="6Le8N80fAAAAAAM89bfyLCHayThoQGjVZo1U5_pE"
+      />
     </div>
   </header>
 

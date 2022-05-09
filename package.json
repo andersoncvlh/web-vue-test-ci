@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "vue": "^3.2.31",
+    "vue-recaptcha": "^2.0.2",
     "vue-router": "^4.0.14"
   },
   "devDependencies": {
