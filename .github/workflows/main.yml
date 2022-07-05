@@ -58,7 +58,7 @@ jobs:
   #         horusec start -p="./" -e="true"  
 
   CD:
-    needs: [build, sonarqube, horusec]
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
